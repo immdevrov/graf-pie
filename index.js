@@ -1,4 +1,4 @@
-function drowFull (size, color) {
+function drawFull (size, color) {
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.arc(size, size, size, 0, Math.PI * 2, true);
@@ -6,11 +6,11 @@ function drowFull (size, color) {
   ctx.fill();
 }
 
-function drowSlise (radius, part, color) {
+function drawSlise (radius, part, color) {
   console.log(part, color)
   const angle = Math.PI * 2 * part;
   if (angle === 0) {
-    drowFull(radius, color);
+    drawFull(radius, color);
     return;
   }
   ctx.fillStyle = color;
@@ -33,13 +33,13 @@ function drowSlise (radius, part, color) {
   ctx.fill();
 }
 
-function drowDiagram(radius, parts) {
+function drawDiagram(radius, parts) {
   const { value: lastValue, color: lastColor } = parts[parts.length - 1];
-  drowSlise(radius, 0, lastColor);
+  drawSlise(radius, 0, lastColor);
   let currentPart = 1 - lastValue;
   for (let i = parts.length - 1; i--; i >= 0) {
     const { value, color } = parts[i];
-    drowSlise(radius, currentPart, color);
+    drawSlise(radius, currentPart, color);
     currentPart -= value;
   }
 }
@@ -55,4 +55,4 @@ const parts = [
   { value: 1 / 3, color: 'blue' },
 ]
 
-drowDiagram(size, parts)
+drawDiagram(size, parts)
