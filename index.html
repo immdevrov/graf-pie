@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .app {
+      margin: 0 auto;
+      background-color: rgb(161, 226, 226);
+    }
+    .input {
+      margin: 10px;
+      padding: 5px;
+      border-radius: 3px;
+      width: 300px;
+    }
+    #canvas {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <input class="input" type="text">
+    <button class="button">Go</button>
+  </div>
+  <div class="app">
+    <canvas width="400" height="400" id="canvas"></canvas>
+  </div>
+  <script type="module" src="./index.js"></script>
+</body>
+</html>
