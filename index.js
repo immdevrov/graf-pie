@@ -7,7 +7,6 @@ function drawFull (size, color) {
 }
 
 function drawSlise (radius, part, color) {
-  console.log(part, color)
   const angle = Math.PI * 2 * part;
   if (angle === 0) {
     drawFull(radius, color);

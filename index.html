@@ -19,25 +19,36 @@
       margin: 0 auto;
       background-color: rgb(161, 226, 226);
     }
-    .input {
+    #canvas {
+      border-radius: 50%;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: max-content min-content;
+      grid-template-rows: min-content 1fr;
+    }
+    .controls .controls__buttons {
+      display: grid;
+    }
+    .controls .controls__inputs {
+      display: flex;
+      flex-direction: column;
+      grid-column: 1/-1;
+    }
+    .controls .controls__inputs input {
       margin: 10px;
       padding: 5px;
       border-radius: 3px;
       width: 300px;
     }
-    #canvas {
-      border-radius: 50%;
-    }
   </style>
 </head>
 <body>
-  <div class="controls">
-    <input class="input" type="text">
-    <button class="button">Go</button>
-  </div>
+  <div class="controls" id="controls"></div>
   <div class="app">
     <canvas width="400" height="400" id="canvas"></canvas>
   </div>
   <script type="module" src="./index.js"></script>
+  <script type="module" src="./ui.js"></script>
 </body>
 </html>
