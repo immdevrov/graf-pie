@@ -1,6 +1,7 @@
 export default function drawDiagram(ctx, radius, parts) {
+  console.log(parts)
   const { value: lastValue, color: lastColor } = parts[parts.length - 1];
-  drawSlise(ctx, radius, 0, lastColor);
+  drawFull(ctx, radius, lastColor);
   let currentPart = 1 - lastValue;
   for (let i = parts.length - 1; i--; i >= 0) {
     const { value, color } = parts[i];
@@ -19,16 +20,12 @@ function drawFull (ctx, size, color) {
 
 function drawSlise (ctx, radius, part, color) {
   const angle = Math.PI * 2 * part;
-  if (angle === 0) {
-    drawFull(ctx, radius, color);
-    return;
-  }
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.moveTo(radius, radius);
   ctx.lineTo(radius, 0);
 
-  if (angle < Math.PI) {
+  if (angle <= Math.PI) {
     ctx.lineTo(radius * 2, 0);
     ctx.lineTo(radius * 2, radius - (radius / Math.tan(angle)));
   } else {

@@ -5,7 +5,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 const size = parseInt(canvas.clientWidth / 2);
 
-const colors = ['OliveDrab', 'RoyalBlue', 'LavenderBlush', 'Crimson', 'Gold', 'Violet']
+const colors = ['OliveDrab', 'RoyalBlue', 'Crimson', 'Gold', 'Violet']
 
 controlsApp.render()
 
@@ -38,7 +38,6 @@ document.addEventListener('click', (event) => {
       value: 1 / +(i.value),
       color: colors[i.id - 1]
     }))
-    console.log(parts)
     drawDiagram(ctx, size, parts)
     return
   }
