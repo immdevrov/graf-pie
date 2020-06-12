@@ -25,7 +25,8 @@
     .controls {
       display: grid;
       grid-template-columns: max-content min-content;
-      grid-template-rows: min-content 1fr;
+      grid-template-rows: min-content 1fr max-content;
+      margin-bottom: 10px;
     }
     .controls .controls__buttons {
       display: grid;
@@ -41,6 +42,10 @@
       border-radius: 3px;
       width: 300px;
     }
+    .button.button-drow {
+      grid-column: 1/-1;
+      height: 40px;
+    }
   </style>
 </head>
 <body>
@@ -49,6 +54,5 @@
     <canvas width="400" height="400" id="canvas"></canvas>
   </div>
   <script type="module" src="./index.js"></script>
-  <script type="module" src="./ui.js"></script>
 </body>
 </html>
