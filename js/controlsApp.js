@@ -2,16 +2,14 @@ import Vuact from './vuact.js'
 
 export const controlsApp = new Vuact({
   selector: '#controls',
-  data: {
+  props: {
     heading: 'Элементы управления',
     buttons: [
       { action: 'add' },
       { action: 'remove' }
     ],
-    inputs: [
-      { id: 1, value: '2' },
-      { id: 2, value: '3' },
-      { id: 3, value: '6' },
+    controls: [
+      { id: 1 }
     ]
   },
   template (props) {
@@ -20,14 +18,16 @@ export const controlsApp = new Vuact({
     <div class="controls__buttons">
       ${props.buttons.map(b =>
       `<button
-        class="button button-action"data-action="${b.action}">${b.action}</button>`
+        class="button button-action" data-action="${b.action}">${b.action}</button>`
     ).join('')}
     </div>
-    <div class="controls__inputs">
-      ${props.inputs.map(i => `<input
-        class="input-action"
-        data-id=${i.id}
-        value=${i.value}>`).join('')}
+    <div class="controls__items">
+      ${props.controls.map(c => `
+        <div class="progress" id="progress-${c.id}">
+          <div class="progress__content"></div>
+        </div>
+        <div class="progress__percent"></div>
+      `).join('')}
     </div>
     <button class="button button-drow">DROW</button>
   `

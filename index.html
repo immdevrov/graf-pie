@@ -3,50 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
   <title>Document</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .app {
-      margin: 0 auto;
-      background-color: rgb(161, 226, 226);
-    }
-    #canvas {
-      border-radius: 50%;
-    }
-    .controls {
-      display: grid;
-      grid-template-columns: max-content min-content;
-      grid-template-rows: min-content 1fr max-content;
-      margin-bottom: 10px;
-    }
-    .controls .controls__buttons {
-      display: grid;
-    }
-    .controls .controls__inputs {
-      display: flex;
-      flex-direction: column;
-      grid-column: 1/-1;
-    }
-    .controls .controls__inputs input {
-      margin: 10px;
-      padding: 5px;
-      border-radius: 3px;
-      width: 300px;
-    }
-    .button.button-drow {
-      grid-column: 1/-1;
-      height: 40px;
-    }
-  </style>
 </head>
 <body>
   <div class="controls" id="controls"></div>

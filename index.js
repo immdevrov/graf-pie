@@ -7,45 +7,48 @@ const size = parseInt(canvas.clientWidth / 2);
 
 const colors = ['OliveDrab', 'RoyalBlue', 'Crimson', 'Gold', 'Violet']
 
+controlsApp.renderCallbackFunction = addListeners
 controlsApp.render()
+let controls = [{ id: 1, value: 0 }] // state
 
 function handleButtonAction (action) {
   if (action === 'add') {
-    const inputsArr = controlsApp.data.inputs
-    const maxId = inputsArr[inputsArr.length - 1].id
-    controlsApp.data.inputs.push({ id: maxId + 1, value: '' })
+    const controlsArr = controlsApp.props.controls
+    const maxId = controlsArr[controlsArr.length - 1].id
+    controlsApp.props.controls.push({ id: maxId + 1 })
+    controls.push({ id: maxId + 1, value: 0 })
   } else {
-    controlsApp.data.inputs.pop()
+    controlsApp.props.controls.pop()
+    controls.pop()
   }
 }
 
-function handleInputValue (id, value) {
-  controlsApp.data.inputs.forEach(item => {
-    if (item.id === +id) {
-      item.value = value
+function handleScroll (strId, value) {
+  const [_, id] = strId.split('-').map(i => +i)
+  controls = controls.map(c => (
+    c.id === id ? { id, value: value / 2700 } : { ...c }
+  ))
+}
+
+function addListeners () {
+  document.addEventListener('click', (event) => {
+    if (event.target.className.includes('button-action')) {
+      handleButtonAction(event.target.dataset.action)
+      return
+    }
+
+    if (event.target.className.includes('button-drow')) {
+      const parts = controls.map(i => ({
+        value: +i.value,
+        color: colors[i.id - 1]
+      }))
+      drawDiagram(ctx, size, parts)
+      return
     }
   })
-}
 
-document.addEventListener('click', (event) => {
-  if (event.target.className.includes('button-action')) {
-    handleButtonAction(event.target.dataset.action)
-    return
-  }
-
-  if (event.target.className.includes('button-drow')) {
-    const parts = controlsApp.data.inputs.map(i => ({
-      value: 1 / +(i.value),
-      color: colors[i.id - 1]
+  document.querySelectorAll('.progress')
+    .forEach(c => c.addEventListener('scroll', (event) => {
+      handleScroll(event.target.id, event.target.scrollLeft)
     }))
-    drawDiagram(ctx, size, parts)
-    return
-  }
-})
-
-document.addEventListener('input', (event) => {
-  if (event.target.className.includes('input-action')) {
-    handleInputValue(event.target.dataset.id, event.target.value)
-    return
-  }
-})
+}

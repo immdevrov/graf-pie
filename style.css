@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  margin: 0 auto;
+  background-color: rgb(161, 226, 226);
+}
+
+#canvas {
+  border-radius: 50%;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: max-content min-content;
+  grid-template-rows: min-content 1fr max-content;
+  margin-bottom: 10px;
+}
+
+.controls .controls__buttons {
+  display: grid;
+}
+
+.controls__items {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+}
+
+.button.button-drow {
+  grid-column: 1/-1;
+  height: 40px;
+}
+
+.progress {
+  margin: 10px 0;
+  width: 300px;
+  height: 20px;
+  border-radius: 3px;
+  overflow-y: scroll;
+  scrollbar-color: #6b3939 #f0a0a0;
+  scrollbar-width: thin;
+}
+
+.progress .progress__content {
+  width: 3000px;
+  height: 1px;
+}
+
+.progress__percent {
+  position: relative;
+  top: 16px;
+  left: 20px;
+}

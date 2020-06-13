@@ -2,17 +2,18 @@ export default class Vuact {
   constructor(options) {
     const __this = this
     __this.elem = document.querySelector(options.selector)
-    let __data = new Proxy(options.data, proxyHandler(this))
+    let __props = new Proxy(options.props, proxyHandler(this))
     __this.template = options.template
     __this.methods = options.methods
     __this.debounce = null
+    __this.renderCallbackFunction = null
 
-    Object.defineProperty(this, 'data', {
+    Object.defineProperty(this, 'props', {
       get() {
-        return __data;
+        return __props;
       },
-      set(data) {
-        __data = new Proxy(data, proxyHandler(__this))
+      set(props) {
+        __props = new Proxy(props, proxyHandler(__this))
         debouncedRender(__this)
         return true
       }
@@ -21,7 +22,8 @@ export default class Vuact {
 
   render() {
     console.log('%crendering...', 'color: slateblue; font-style: italic')
-    this.elem.innerHTML = this.template(this.data)
+    this.elem.innerHTML = this.template(this.props)
+    this.renderCallbackFunction()
   }
 }
 
