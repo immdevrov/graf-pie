@@ -5,29 +5,32 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 const size = parseInt(canvas.clientWidth / 2);
 
-const colors = ['OliveDrab', 'RoyalBlue', 'Crimson', 'Gold', 'Violet']
+const colors = ['OliveDrab', 'RoyalBlue', 'Crimson', 'Gold', 'Violet', 'RoyalBlue', 'Crimson', 'Gold', 'Violet']
 
 controlsApp.renderCallbackFunction = addListeners
 controlsApp.render()
-let controls = [{ id: 1, value: 0 }] // state
+resetScroll()
 
-function handleButtonAction (action) {
-  if (action === 'add') {
-    const controlsArr = controlsApp.props.controls
-    const maxId = controlsArr[controlsArr.length - 1].id
-    controlsApp.props.controls.push({ id: maxId + 1 })
-    controls.push({ id: maxId + 1, value: 0 })
-  } else {
-    controlsApp.props.controls.pop()
-    controls.pop()
-  }
+function resetScroll () {
+  document.querySelectorAll('.progress').forEach(c => {
+    c.scrollLeft = 0
+  })
 }
 
-function handleScroll (strId, value) {
-  const [_, id] = strId.split('-').map(i => +i)
-  controls = controls.map(c => (
-    c.id === id ? { id, value: value / 2700 } : { ...c }
-  ))
+const maxScroll = 2700
+let controlsAppState = [{ id: 1, value: 0 }]
+
+function currentStatePercentSumm () {
+  return parseInt(controlsAppState.reduce((prev, curr) => prev + curr.value * 100, 0))
+}
+
+
+function correctScrollValues() {
+  document.querySelectorAll('.progress').forEach(c => {
+    const [_, controlId] = c.id.split('-').map(i => +i)
+    const { value: rightValue } = controlsAppState.find(({ id }) => id === +controlId)
+    c.scrollLeft = rightValue * maxScroll
+  })
 }
 
 function addListeners () {
@@ -38,7 +41,7 @@ function addListeners () {
     }
 
     if (event.target.className.includes('button-drow')) {
-      const parts = controls.map(i => ({
+      const parts = controlsAppState.map(i => ({
         value: +i.value,
         color: colors[i.id - 1]
       }))
@@ -51,4 +54,43 @@ function addListeners () {
     .forEach(c => c.addEventListener('scroll', (event) => {
       handleScroll(event.target.id, event.target.scrollLeft)
     }))
+}
+
+function handleButtonAction(action) {
+  if (action === 'add') {
+    const maxId = controlsAppState[controlsAppState.length - 1].id
+    controlsApp.props.controls.push({ id: maxId + 1 })
+    controlsAppState.push({ id: maxId + 1, value: 0 })
+  } else {
+    controlsApp.props.controls.pop()
+    controlsAppState.pop()
+  }
+  resetScroll()
+}
+
+function handleScroll(strId, value) {
+  const [_, id] = strId.split('-').map(i => +i)
+  controlsAppState = controlsAppState.map(c => {
+    return c.id === id ? { id, value: value / maxScroll } : { ...c }
+  })
+  if (currentStatePercentSumm() > 100) {
+    const redundantPercent = (currentStatePercentSumm() - 100) / (controlsAppState.length - 1)
+    console.log(controlsAppState)
+    controlsAppState = controlsAppState.map(c => {
+      return c.id !== id
+        ? { id: c.id, value: c.value - redundantPercent / 100 }
+        : { ...c }
+    })
+    correctScrollValues()
+  }
+  if (currentStatePercentSumm() < 100) {
+    const missingPercent = (100 - currentStatePercentSumm()) / (controlsAppState.length - 1)
+    console.log(controlsAppState)
+    controlsAppState = controlsAppState.map(c => {
+      return c.id !== id
+        ? { id: c.id, value: c.value + missingPercent / 100 }
+        : { ...c }
+    })
+    correctScrollValues()
+  }
 }
