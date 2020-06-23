@@ -1,5 +1,4 @@
 export default function drawDiagram(ctx, radius, parts) {
-  console.log(parts)
   const { value: lastValue, color: lastColor } = parts[parts.length - 1];
   drawFull(ctx, radius, lastColor);
   let currentPart = 1 - lastValue;
